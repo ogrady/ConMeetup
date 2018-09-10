@@ -3,6 +3,10 @@
 ## Purpose
 Tool to organise small groups of people on a convention area, where everyone can update their current location periodically for better coordination.
 
+## Architecture
+Tool is supposed to run locally as a webserver with a HTML interface for users.
+Android and/or iOS apps for leightweight access are optional later on.
+
 ## Feature List
 
 ### Basic Features
