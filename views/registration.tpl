@@ -1,5 +1,5 @@
 % rebase('base.tpl')
-<form class="needs-validation" id="formRegistration" action="ajax/register" method="POST">
+<form class="needs-validation" id="formRegister" action="ajax/register" method="POST">
   <h3>Group Data</h3>
   <div class="form-group">
     <label for="inpPassword">Group Password</label>
@@ -8,7 +8,7 @@
   </div>
   <div class="form-group">
     <label for="inpFloorplan">Floor Plan</label>
-    <input type="file" class="form-control" name="inpFloorplan" aria-describedby="floorplanHelp" required multiple>
+    <input type="file" class="form-control" name="inpFloorplan" id="inpFloorplan" aria-describedby="floorplanHelp" required multiple>
     <small id="floorplanHelp" class="form-text text-muted">Image of the floor plan of the convention.</small>
   </div>
   <div class="form-check">
@@ -20,20 +20,27 @@
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+<button id="foobar">clickme</button>
+
+<canvas id="canvas"></canvas>
 <script>
   $(document).ready(function() {
-    function handleImage(e){
-        var reader = new FileReader();
-        reader.onload = function(event){
-            var img = new Image();
-            img.onload = function(){
-                canvas.width = img.width;
-                canvas.height = img.height;
-                ctx.drawImage(img,0,0);
-            }
-            img.src = event.target.result;
+
+    $("#foobar").click(function(e) {
+      e.preventDefault();
+      let canvas = document.getElementById("canvas");
+      let files = document.getElementById("inpFloorplan");
+      let context = canvas.getContext("2d");
+      var fr = new FileReader();
+        fr.onload = function (e) {
+          let img = new Image();
+          console.log(img.width, img.height);
+          img.src = fr.result;
+          //canvas.width = img.width;
+          //canvas.height = img.height;
+          context.drawImage(img,0,0)
         }
-        reader.readAsDataURL(e.target.files[0]);     
-      } 
+        fr.readAsDataURL(files.files[0]);
+    });
   });
 </script>
