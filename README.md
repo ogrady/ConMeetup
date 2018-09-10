@@ -21,3 +21,6 @@ Android and/or iOS apps for leightweight access are optional later on.
 - Lightweight chat.
 - Option to update position of other users as well.
 - Optional GPS tracking, whenever connection allows for it.
+
+## Credits
+Bootle Bootstrap kindly provided by [arsho](https://github.com/arsho/bottle-bootstrap).
