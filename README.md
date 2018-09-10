@@ -22,5 +22,8 @@ Android and/or iOS apps for leightweight access are optional later on.
 - Option to update position of other users as well.
 - Optional GPS tracking, whenever connection allows for it.
 
+## Setup
+cd into the project root, then run `python setup.py install` to install all dependencies, then run `python app.py` to run the server.
+
 ## Credits
 Bootle Bootstrap kindly provided by [arsho](https://github.com/arsho/bottle-bootstrap).
