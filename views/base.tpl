@@ -30,8 +30,8 @@
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="registration">Login</a></li>
-						<li><a href="feedback">About</a></li>
+						<li><a href="registration">Create Group</a></li>
+						<li><a href="login">Login to Group</a></li>
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div>

@@ -48,8 +48,12 @@ def send_css(filename):
 def send_js(filename):
     return static_file(filename, root=dirname+'static/asset/js')
 
+@app.route('/registration')
+def register():
+    return template("registration", data = params())
+
 @app.route('/')
 def index():
-    return template('index', data = params())
+    return template("index", data = params())
 
-run(app, host='localhost', port = 8080)
+run(app, host="localhost", port = 8080)
