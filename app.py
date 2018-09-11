@@ -45,29 +45,29 @@ def jsonresponse(additional = {}):
         "message": ""
     }
     data.update(additional)
-    response.content_type = 'application/json'
+    response.content_type = "application/json"
     return json.dumps(data)
 
-@app.route('/static/<filename:re:.*\.css>')
+@app.route("/static/<filename:re:.*\.css>")
 def send_css(filename):
-    return static_file(filename, root=dirname+'static/asset/css')
+    return static_file(filename, root=dirname+"static/asset/css")
 
-@app.route('/static/<filename:re:.*\.js>')
+@app.route("/static/<filename:re:.*\.js>")
 def send_js(filename):
-    return static_file(filename, root=dirname+'static/asset/js')
+    return static_file(filename, root=dirname+"static/asset/js")
 
-@app.route('/registration')
+@app.route("/registration")
 def register():
     return template("registration", data = params())
 
-@app.route('/')
+@app.route("/")
 def index():
     return template("index", data = params())
 
 @app.route("/ajax/join", method="POST")
     pass
 
-@app.route("/ajax/register", method='POST')
+@app.route("/ajax/register", method="POST")
 def register():
     res = {}
     groupname  = request.forms.get("inpName")
