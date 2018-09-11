@@ -4,6 +4,11 @@ DB_NAME = "meetup.db"
 
 class Database(object):
     instance = SqliteDatabase(DB_NAME)
+    instance.connect()
+
+    @staticmethod
+    def init():
+        Database.instance.create_tables([Group,Floorplan,User])
 
 class BaseModel(Model):
     class Meta:
@@ -23,3 +28,4 @@ class User(BaseModel):
     id = PrimaryKeyField(null = False)
     name = CharField()
     colour = CharField(max_length=6)
+    group = ForeignKeyField(Group, related_name="users")
