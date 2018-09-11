@@ -1,6 +1,7 @@
 from peewee import *
 
 DB_NAME = "meetup.db"
+UPLOAD_DIR = "uploads/"
 
 class Database(object):
     instance = SqliteDatabase(DB_NAME)
@@ -21,8 +22,13 @@ class Group(BaseModel):
 
 class Floorplan(BaseModel):
     id = PrimaryKeyField(null = False)
-    filename = CharField(unique = True)
+    filename = CharField()
     group = ForeignKeyField(Group, related_name="floorplans")
+
+    @property
+    def filepath(self):
+        return "%s/%s_%s" % (UPLOAD_DIR, self.id, self.filename)
+    
 
 class User(BaseModel):
     id = PrimaryKeyField(null = False)
