@@ -8,7 +8,8 @@ setup(name="ConMeetup",
       author_email="danielogrady@uni-tuebingen.de",
       license="MIT",
       packages=[],
-      # python_requires=">=3",
+      python_requires=">=3",
       install_requires=[
+            "peewee"
       ],
       zip_safe=False)
