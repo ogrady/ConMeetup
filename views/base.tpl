@@ -71,4 +71,15 @@
     </div>
   </div>
 </body>
+<script>
+	function popup(header, text) {
+	    let popup = $("#modal");
+	    popup.find(".modal-title").text(header);
+	    popup.find(".modal-body").text(text);
+	    popup.modal();
+  	}
+	$(document).ready(function() {
+		// nothing yet.
+	});
+</script>
 </html>

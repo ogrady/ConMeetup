@@ -36,12 +36,14 @@
     event.stopPropagation();
     console.log(this);
     $.ajax({
-        url: this.action,
-        type: "POST",
-        data: new FormData(this),
-        cache: false,
-        contentType: false,
-        processData: false
+      url: this.action,
+      type: "POST",
+      data: new FormData(this),
+      cache: false,
+      contentType: false,
+      processData: false
+    }).done(function(data) {
+      popup(data["message_header"], data.message);  
     });
   });
 
