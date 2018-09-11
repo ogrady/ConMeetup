@@ -1,6 +1,11 @@
 % rebase('base.tpl')
-<form class="needs-validation" id="formRegister" action="ajax/register" method="POST">
+<form class="needs-validation" id="formRegister" action="ajax/register" method="POST" enctype="multipart/form-data">
   <h3>Group Data</h3>
+  <div class="form-group">
+    <label for="inpName">Group Name</label>
+    <input type="text" class="form-control" name="inpName" placeholder="Group Name" aria-describedby="groupHelp" required>
+    <small id="groupHelp" class="form-text text-muted">Please choose a unique name.</small>
+  </div>
   <div class="form-group">
     <label for="inpPassword">Group Password</label>
     <input type="password" class="form-control" name="inpPassword" placeholder="Password" aria-describedby="passwordHelp" required>
@@ -8,8 +13,8 @@
   </div>
   <div class="form-group">
     <label for="inpFloorplan">Floor Plan</label>
-    <input type="file" class="form-control" name="inpFloorplan" id="inpFloorplan" aria-describedby="floorplanHelp" required multiple>
-    <small id="floorplanHelp" class="form-text text-muted">Image of the floor plan of the convention.</small>
+    <input type="file" class="form-control" name="inpFloorplans" id="inpFloorplans" aria-describedby="floorplanHelp" required multiple>
+    <small id="floorplanHelp" class="form-text text-muted">Image(s) of the floor plan of the convention.</small>
   </div>
   <div class="form-check">
     <label class="form-check-label">
@@ -25,6 +30,20 @@
 <canvas id="canvas"></canvas>
 <script>
   $(document).ready(function() {
+
+  $("#formRegister").submit(function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    console.log(this);
+    $.ajax({
+        url: this.action,
+        type: "POST",
+        data: new FormData(this),
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+  });
 
     $("#foobar").click(function(e) {
       e.preventDefault();
