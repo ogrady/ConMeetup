@@ -64,6 +64,9 @@ def register():
 def index():
     return template("index", data = params())
 
+@app.route("/ajax/join", method="POST")
+    pass
+
 @app.route("/ajax/register", method='POST')
 def register():
     res = {}
