@@ -57,14 +57,19 @@ def send_js(filename):
     return static_file(filename, root=dirname+"static/asset/js")
 
 @app.route("/registration")
-def register():
+def registration():
     return template("registration", data = params())
+
+@app.route("/join")
+def joining():
+    return template("joining", data = params())
 
 @app.route("/")
 def index():
     return template("index", data = params())
 
 @app.route("/ajax/join", method="POST")
+def join():
     pass
 
 @app.route("/ajax/register", method="POST")
