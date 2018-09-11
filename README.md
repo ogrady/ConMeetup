@@ -19,6 +19,7 @@ Android and/or iOS apps for leightweight access are optional later on.
 - Floor plan markup, allow group leader to mark areas as rooms and name them and mark connections between rooms and floors.
 - Enable easy pathfinding from one room to another and to other users respectively.
 - Lightweight chat.
+- Event timetable, allow group leader to add to the event timetable, as well as users to declare interest in certain events for organisation purposes 
 - Option to update position of other users as well.
 - Optional GPS tracking, whenever connection allows for it.
 
@@ -26,4 +27,4 @@ Android and/or iOS apps for leightweight access are optional later on.
 cd into the project root, then run `python setup.py install` to install all dependencies, then run `python app.py` to run the server.
 
 ## Credits
-Bootle Bootstrap kindly provided by [arsho](https://github.com/arsho/bottle-bootstrap).
+Bottle Bootstrap kindly provided by [arsho](https://github.com/arsho/bottle-bootstrap).
