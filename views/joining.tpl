@@ -17,7 +17,7 @@
     <small id="nameHelp" class="form-text text-muted">The name you want to show up on the map with.</small>
   </div>
   <div class="form-group">
-    <label for="inpColour">User Name</label>
+    <label for="inpColour">User Colour</label>
     <input type="color" class="form-control" name="inpColour" placeholder="User Colour" aria-describedby="colourHelp" required>
     <small id="colourHelp" class="form-text text-muted">The colour with which you are marked on the map.</small>
   </div>
@@ -30,12 +30,9 @@
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
-<button id="foobar">clickme</button>
-
 <canvas id="canvas"></canvas>
 <script>
-  $(document).ready(function() {
-
+$(document).ready(function() {
   $("#formRegister").submit(function(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -51,22 +48,5 @@
       popup(data["message_header"], data.message);  
     });
   });
-
-    $("#foobar").click(function(e) {
-      e.preventDefault();
-      let canvas = document.getElementById("canvas");
-      let files = document.getElementById("inpFloorplan");
-      let context = canvas.getContext("2d");
-      var fr = new FileReader();
-        fr.onload = function (e) {
-          let img = new Image();
-          console.log(img.width, img.height);
-          img.src = fr.result;
-          //canvas.width = img.width;
-          //canvas.height = img.height;
-          context.drawImage(img,0,0)
-        }
-        fr.readAsDataURL(files.files[0]);
-    });
-  });
+});
 </script>
