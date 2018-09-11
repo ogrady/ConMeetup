@@ -12,6 +12,7 @@ import datetime
 import time
 import datetime
 import atexit
+import json
 
 LOG_FILE = "log.txt"
 dirname = os.path.dirname(sys.argv[0])
@@ -58,6 +59,27 @@ def register():
 @app.route('/')
 def index():
     return template("index", data = params())
+
+@app.route("/ajax/register", method='POST')
+def register():
+    groupname  = request.forms.get("inpName")
+    password   = request.forms.get("inpPassword")
+    floorplans = request.files.getall("inpFloorplans") #forms.get("inpFloorplans")
+    dsgvo      = request.forms.get("cbDSGVO")
+    print(groupname)
+    print(floorplans)
+
+    for k in request.files:
+        print("%s: %s" % (k,42))
+    #print(request.files)
+
+    validfps = [fp for fp in floorplans if os.path.splitext(fp.filename)[1] in (".png", ".jpg", ".jpeg")]
+    if len(validfps) != len(floorplans):
+        # at least one fp not an image
+        pass
+
+    response.content_type = 'application/json'
+    return json.dumps({"message": "wer das liest ist doof"})
 
 if __name__ == "__main__":
     main()
