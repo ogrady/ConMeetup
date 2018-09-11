@@ -9,8 +9,10 @@ class Logger(object):
         self._write("ERROR", message)
 
     def close(self):
+        self._fh.flush()
         self._fh.close()
 
     def _write(self, header, message):
         ts = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
         self._fh.write("[%s] %s: %s" % (header, ts, message))
+        self._fh.flush()
