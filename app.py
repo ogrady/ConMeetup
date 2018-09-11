@@ -4,28 +4,28 @@ from bottle import Bottle, run, \
      template, debug, static_file, \
      request, response, redirect
 
+from util import Logger
+from models import *
+
 import os, sys
 import datetime
 import time
 import datetime
+import atexit
 
 LOG_FILE = "log.txt"
-
-class Logger(object):
-    def __init__(self, filename, mode = "a"):
-        self._fh = open(filename, mode)
-
-    def error(self, message):
-        self._write("ERROR", message)
-
-    def _write(self, header, message):
-        ts = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-        self._fh.write("[%s] %s: %s" % (header, ts, message))
-
 dirname = os.path.dirname(sys.argv[0])
 log = Logger(LOG_FILE)
 app = Bottle()
-debug(True)
+
+def main():
+    atexit.register(stop)
+    debug(True) 
+    run(app, host="localhost", port = 8080)   
+
+def stop():
+    log.close()
+    Database.instance.close()
 
 def params(additional = {}):
     '''
@@ -56,4 +56,5 @@ def register():
 def index():
     return template("index", data = params())
 
-run(app, host="localhost", port = 8080)
+if __name__ == "__main__":
+    main()
