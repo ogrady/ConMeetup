@@ -1,2 +1,3 @@
 // check in the upload directory, but ignore all uploads
+*
 !.gitignore
