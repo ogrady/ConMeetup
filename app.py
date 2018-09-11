@@ -8,9 +8,6 @@ from util import Logger
 from models import *
 
 import os, sys
-import datetime
-import time
-import datetime
 import atexit
 import json
 
@@ -44,6 +41,15 @@ def params(additional = {}):
     data.update(additional)
     return data
 
+def jsonresponse(additional = {}):
+    data = {
+        "message_header": "Message",
+        "message": ""
+    }
+    data.update(additional)
+    response.content_type = 'application/json'
+    return json.dumps(data)
+
 @app.route('/static/<filename:re:.*\.css>')
 def send_css(filename):
     return static_file(filename, root=dirname+'static/asset/css')
@@ -62,24 +68,40 @@ def index():
 
 @app.route("/ajax/register", method='POST')
 def register():
+    res = {}
     groupname  = request.forms.get("inpName")
     password   = request.forms.get("inpPassword")
-    floorplans = request.files.getall("inpFloorplans") #forms.get("inpFloorplans")
+    floorplans = request.files.getall("inpFloorplans")
     dsgvo      = request.forms.get("cbDSGVO")
-    print(groupname)
-    print(floorplans)
+    
+    if not all((groupname, password, floorplans, dsgvo)):
+        return jsonresponse({"message": "Incomplete input."})
 
-    for k in request.files:
-        print("%s: %s" % (k,42))
-    #print(request.files)
-
-    validfps = [fp for fp in floorplans if os.path.splitext(fp.filename)[1] in (".png", ".jpg", ".jpeg")]
+    validexts = (".png", ".jpg", ".jpeg")
+    validfps = [fp for fp in floorplans if os.path.splitext(fp.filename)[1] in validexts]
     if len(validfps) != len(floorplans):
-        # at least one fp not an image
-        pass
+        return jsonresponse({"message": "Floorplans must all be of types: %s" % (str(validexts),)})
 
-    response.content_type = 'application/json'
-    return json.dumps({"message": "wer das liest ist doof"})
+    # FIXME: remove! only for debugging!
+    Group.delete().where(Group.name == groupname).execute()
+
+    if Group.select().where(Group.name == groupname).exists():
+        return jsonresponse({"message": "Groupname '%s' is already taken, please choose another name." % (groupname,)})
+
+    with Database.instance.atomic() as transaction:
+        try:
+            group = Group.create(name = groupname, password = password)
+            group.save()
+            for fp in validfps:
+                fpm = Floorplan(group = group, filename = fp.filename)
+                fpm.save()
+                fp.save(fpm.filepath)
+        except Exception as e:
+            transaction.rollback()
+            log.error(str(e))
+            return jsonresponse({"message": "Internal error when trying to save the new group."})
+    
+    return jsonresponse({"message": "Group '%s' was successfully created." % (groupname,)})
 
 if __name__ == "__main__":
     main()
