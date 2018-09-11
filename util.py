@@ -1,3 +1,6 @@
+import datetime
+import time
+
 class Logger(object):
     def __init__(self, filename, mode = "a"):
         self._fh = open(filename, mode)
