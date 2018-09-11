@@ -18,8 +18,6 @@ app = Bottle()
 
 def main():
     Database.init()
-    g1 = Group(name="foobar", password="secret")
-    g1.save()
     atexit.register(stop)
     debug(True) 
     run(app, host="localhost", port = 8080)   
