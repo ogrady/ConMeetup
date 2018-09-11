@@ -31,7 +31,7 @@
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="registration">Create Group</a></li>
-						<li><a href="login">Login to Group</a></li>
+						<li><a href="join">Join Group</a></li>
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div>
