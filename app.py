@@ -71,7 +71,39 @@ def index():
 
 @app.route("/ajax/join", method="POST")
 def join():
-    pass
+    res = {}
+    groupname = request.forms.get("inpGroupName").strip(' \t\n\r')
+    password  = request.forms.get("inpPassword")
+    username  = request.forms.get("inpUserName").strip(' \t\n\r')
+    colour    = request.forms.get("inpColour")
+    dsgvo     = request.forms.get("cbDSGVO")
+
+    if User.select().join(Group, on=(User.group == Group.id)).where((User.name == username) & (Group.name == groupname) & (Group.password == password)).exists():
+        with Database.instance.atomic() as transaction:
+            try:
+                group = Group.get(Group.name == groupname)
+                user = User.get((User.name == username) & (User.group == group))
+                User.colour = colour
+                user.save()
+            except Exception as e:
+                transaction.rollback()
+                log.error(str(e))
+                return jsonresponse({"message": "Internal error when trying to update existing user."})
+
+        return jsonresponse({"message": "You have been successfully logged into the group '%s'" % (groupname,)})
+    elif Group.select().where(Group.name == username and Group.password == password).exists():
+        with Database.instance.atomic() as transaction:
+            try:
+                group = Group.get(Group.name == groupname)
+                user = User.create(name = username, group = group, colour = colour)
+                user.save()
+            except Exception as e:
+                transaction.rollback()
+                log.error(str(e))
+                return jsonresponse({"message": "Internal error when trying to save the new user."})
+        
+        return jsonresponse({"message": "You have successfully joined group '%s' as '%s'" % (groupname, username,)})
+    return jsonresponse({"message": "The combination of Group Name and Group Password doesn't exist."})
 
 @app.route("/ajax/register", method="POST")
 def register():
@@ -80,7 +112,7 @@ def register():
     password   = request.forms.get("inpPassword")
     floorplans = request.files.getall("inpFloorplans")
     dsgvo      = request.forms.get("cbDSGVO")
-    
+
     if not all((groupname, password, floorplans, dsgvo)):
         return jsonresponse({"message": "Incomplete input."})
 
@@ -90,7 +122,7 @@ def register():
         return jsonresponse({"message": "Floorplans must all be of types: %s" % (str(validexts),)})
 
     # FIXME: remove! only for debugging!
-    Group.delete().where(Group.name == groupname).execute()
+    # Group.delete().where(Group.name == groupname).execute()
 
     if Group.select().where(Group.name == groupname).exists():
         return jsonresponse({"message": "Groupname '%s' is already taken, please choose another name." % (groupname,)})
